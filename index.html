@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div id="app01">
+        <p>p tag</p>
+        {{message01 + "\t" +msg03}}
+        <p></p>
+        {{msg03}}
+    </div>
+
+    </p>
+
+    <div id="example">{{a}}</div>
+
+    <!-- 개발버전, 도움되는 콘솔 경고를 포함. -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    
+    <script>
+
+        var appTest = new Vue(
+            {
+                el:"#app01",
+                data:{
+                    message01 : "vue.js start!",
+                    message02 : "msg 02_222",
+                    msg03 : "msg 03_000"
+                }
+            }
+        );
+
+        // console.log( Vue.config );
+        // console.log(appTest);
+
+        var data = { a : 123};
+        var vm = new Vue({
+            el : "#example",
+            data : data
+        });
+
+        console.log(data); // a: 123
+        console.log(vm.$data); // vm.data == 123
+        console.log(vm.$data === data); //true
+
+
+
+    </script>
+
+    
+
+
+
+</body>
+</html>
