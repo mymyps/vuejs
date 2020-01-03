@@ -38,7 +38,7 @@
         // console.log( Vue.config );
         // console.log(appTest);
 
-        var data = { a : 123};
+        var data = { a : 123, b : 1001};
         var vm = new Vue({
             el : "#example",
             data : data
@@ -47,8 +47,42 @@
         console.log(data); // a: 123
         console.log(vm.$data); // vm.data == 123
         console.log(vm.$data === data); //true
+        console.log(vm.$el === document.getElementById('example'));
 
+        vm.$watch('a', function (newVal, oldVal){
+            console.log(newVal);
+            console.log(oldVal);
+        });
 
+        vm.a = 45678;
+
+        vm.$watch(
+            'b',
+            function(newVal, oldVal){
+                console.log("text changed");
+            }
+        );
+        
+        console.log(vm.b);
+        vm.b = 9999;
+
+        //-----
+
+        new Vue({
+            data : {
+                a : 1
+            }
+            ,created : function (){
+                console.log("created func : " + this.a);
+            }
+            ,updated : function(){
+                console.log("destoryed");
+            }
+        });
+
+        console.log("=========");
+        var testA = () => console.log("arrowtest");
+        testA();
 
     </script>
 
