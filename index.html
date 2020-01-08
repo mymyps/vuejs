@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div id="app">
+        {{msg}}
+        <p></p>
+        {{msgList}}
+        <!-- <ul>
+            <li v-for="item in msgList">
+                {{item.userId}}
+            </li>
+        </ul> -->
+        
+    </div>
+
+    <!-- 개발버전, 도움되는 콘솔 경고를 포함. -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script>
+        //https://jsonplaceholder.typicode.com/todos/1
+        // var testStr = [];
+        var app = new Vue({
+            el: '#app',
+            data: {
+                msg: '안녕하세요 Vue!',
+                msgList : {
+                    userId:99,
+                    id:99,
+                    title:"qqqqqq",
+                    body:"set body"
+                }
+            },
+            methods : {
+            },
+            watch : {
+            }
+            ,created : function (){
+                // this.msg = "test vue";
+                // console.log("created");
+                // var self = this;
+                
+                // const axios = require('axios');
+                axios.get('https://jsonplaceholder.typicode.com/users/1/posts')
+                .then(function (res){
+                    console.log(res.data);
+                    // msgList.push(res.data);
+                    this.msgList = res.data;
+                    console.log(msgList[1]);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
+                // .then(response => response.json())
+                // .then(json => console.log(json))
+            }
+                
+        });
+
+
+    </script>
+
+</body>
+</html>
