@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+    <!-- 1 -->
+    <div id="example-1">
+        <button @click="counter += 1">Add 1</button>
+        <p>위 버튼을 클릭한 횟수는 {{counter}} 번 </p>
+    </div>
+
+</br>
+
+    <!-- 2 -->
+    <div id="ex2">
+        <button @click="greet">Greet</button>
+    </div>
+
+</br>
+
+    <!-- 3 -->
+    <div id="ex3">
+        <button @click="say('hi')">Say hi</button>
+        <button @click="say('what')">Say what</button>
+        <button @click="say('woooooo')">wow</button>
+    </div>
+
+</br>
+
+    <!-- 4 -->
+    <div id="ex4">
+        <button @click="warn('Form cannot be submitted yet', $event)">Submit</button>
+    </div>
+
+    <!-- -------------------------------------------------------------------- -->
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script>
+        
+        var vm1 = new Vue({
+            el : '#example-1',
+            data: {
+                counter: 0
+            }
+        });
+
+        //2
+        var ex2 = new Vue({
+            el: '#ex2',
+            data: {
+                name : 'Vue.js'
+            },
+            methods: {
+                greet: function(event){
+                    //메소드 안에서 사용하는 this는 Vue 인스턴스를 가리킵니다
+                    alert('Hello ' + this.name + '!');
+                    if(event){
+                        alert(event.target.tagName);
+                    }
+                }
+            },
+        });
+
+        //또한 javaScript를 이용해서 메소드를 호출할 수 있다
+        //ex2.greet();// => 'Hello Vue.js!'
+
+        //3 inlineMethod
+        new Vue({
+            el: '#ex3',
+            methods: {
+                say: function(message){
+                    alert(message);
+                }
+            }
+        });
+    
+        //4 인라인 명령문핸들러에서 원본 DOM이벤트에 액세스 해야할 수도 있습니다
+        // $event 변수를 사용하여 메소드에 전달
+        new Vue({
+            el: '#ex4',
+            methods: {
+                warn: function(msg, e){
+                    console.log(msg);
+                    console.log(e);
+                    if(e) e.preventDefault(); //페이지 리로드및 이동 정지
+                    alert(msg);
+                }
+            },
+        });
+
+        //v-on:click.prevent.self // 모든 클릭을 막을 수 있음
+        //v-on:click.self.prevent // 엘리먼트 자체에 대한 클릭만 방지
+
+        
+
+
+
+    </script>
+
+</body>
+</html>

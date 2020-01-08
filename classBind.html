@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    div{
+        border : 1px solid black;    
+    }
+</style>
+<body>
+
+    <!-- 1 -->
+    <div id="app" 
+        :class="{ active:isActive, 'text-danger' : hasError}"> test div
+    </div>
+
+</br>
+
+    <!-- 2 -->
+    <div id="app2" :class="classObject"> test div2
+    </div>
+
+</br>
+
+    <!-- 3 -->
+    <div id="app3" :class="classObject"> test div3
+    </div>
+
+</br>
+
+    <!-- array bind -->
+    <div id="app4" :class="[activeClass, errorClass]"> test div4 
+    </div>
+
+</br>
+
+    <div id="app5" :class="[isActive ? activeClass : '', errorClass]"> test div5
+    </div>
+
+</br>
+
+    <div id="app6" :class="[{active : isActive}, errorClass]"> test div6
+    </div>
+
+</br>
+
+    <!-- 7 -->
+    <div id="app7" :style="{color : activeColor, fontSize : fontSize + 'px' }"> inline style binding</div>
+
+</br>
+    <!-- 8 -->
+    <div id="app8" :style="styleObject">inline style bind</div>
+
+</br>
+
+    <!-- computed & methods -->
+    <div id="app9">
+        <ul>
+            <li v-for="n in evenNumbers">
+                <div v-for="number in multiplex(n)"> {{number}} </div>
+            </li>
+        </ul>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    
+    <script>
+        
+        // 1
+        new Vue({
+            el : "#app",
+            data : {
+                isActive : true,
+                hasError : true
+            }
+        });
+
+        // 2
+        new Vue({
+            el : '#app2',
+            data : {
+                classObject : {
+                    active : true,
+                    'text-danger' : true
+                }
+            }
+        });
+
+        //3
+        new Vue({
+            el : '#app3',
+            data : {
+                isActive : true,
+                error : null
+            },
+            // 계산된 객체를 반환하는 계산된 속성을 바인딩 할 수 있다.
+            // 원본데이터를 실제로 변경하지 않고 필터링되거나 정렬 된 배열을 표시해야할 경우
+            // 필터링된 배열이나 정렬된 배열을 반환하는 경우
+            computed: {
+                classObject : function(){
+                    return{
+                        active : this.isActive && !this.error,
+                        'text-danger' : this.error && this.error.type === 'fatal'
+                    }
+                }
+            }
+        });
+
+        //array bind
+        new Vue({
+            el : "#app4",
+            data : {
+                activeClass : 'active',
+                errorClass : 'text-danger'
+            }
+        });
+
+        //6
+        new Vue({
+            el : "#app6",
+            data : {
+                isActive : false,
+                errorClass : 'text-danger'
+            }
+        });
+
+        //7
+        new Vue({
+            el : '#app7',
+            data : {
+                activeColor : 'red',
+                fontSize : 22
+            }
+        });
+
+        //8
+        new Vue({
+            el : '#app8',
+            data : {
+                styleObject : {
+                    color : 'green',
+                    fontSize : '18px'
+                }
+            }
+        });
+
+        //<!-- computed & methods -->
+        new Vue({
+            el : '#app9',
+            data : {
+                numbers : [1, 2, 3, 4, 5]
+            },
+            computed:{
+                evenNumbers(){
+                    return this.numbers.filter(function (number){
+                        return (number % 2) === 0;
+                    })
+                }
+            },
+            methods: {
+                multiplex(number){
+                    return number;
+                }
+            },
+        });
+
+    </script>
+
+
+</body>
+</html>

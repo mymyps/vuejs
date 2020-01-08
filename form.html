@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<style>
+    div{
+        border: solid 1px black;
+    }
+</style>
+
+<body>
+
+    <!-- v-model은 모든 form 엘리먼스 초기 value, checked, selected 속성을 무시한다
+    항상 뷰 인스턴스 데이터를 원본 소스로 취급함
+    컴ㅍ넌트 data 옵션안에 있는 javaScript에서 초기값을 선언해야함 -->
+    
+    <!-- 1 -->
+    <div id="app1">
+        <input v-model="msg" placeholder="수정 해보세요">
+        <p>message : {{msg}} </p>
+    </div>
+
+    <!-- 2 -->
+    <div id="app2">
+        <span>여러 줄을 가지는 메시지</span>
+        <br>
+        <!-- <textarea> {{msg}} </textarea>
+        텍스트 영역의 보가은 작동하지 않는다. v-model을 사용해야함 -->
+        <textarea v-model="msg" name="" id=""></textarea>
+        <br>
+        <p style="white-space: pre-line;"> {{msg}} </p>
+    </div>
+
+    <!-- 3 -->
+    <div id="app3">
+        <input type="checkbox" id="checkbox" v-model="checked">
+        <label for="checkbox"> {{checked}} </label>
+    </div>
+
+    <!-- 4 -->
+    <div id="app4">
+        <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+        <label for="jack">Jack</label>
+        <input type="checkbox" id="john" value="John" v-model="checkedNames">
+        <label for="john">John</label>
+        <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+        <label for="mike">Mike</label>
+        <br>
+        <span>체크한 이름: {{checkedNames}} </span>
+    </div>
+
+    <!-- 5 동적 렌더링 -->
+    <div id="app5">
+        <select v-model="selected">
+            <option v-for="option in options" :value="option.value">
+                {{ option.text }}
+            </option>
+        </select>
+        <span>Selected: {{selected}} </span>
+    </div>
+
+    <!-- -------------------------------------------------------------------- -->
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script>
+        //1
+        new Vue({
+            el: '#app1',
+            data:{
+                msg : ""
+            }
+        });
+
+        //2
+        new Vue({
+            el: '#app2',
+            data:{
+                msg: ""
+            }
+        });
+
+        //3
+        new Vue({
+            el: '#app3',
+            data:{
+                checked: ""
+                //checked: true
+            }
+        });
+
+        //4
+        new Vue({
+            el: '#app4',
+            data: {
+                checkedNames: []
+            }
+        });
+
+        //5 동적 렌더링
+        new Vue({
+            el: '#app5',
+            data:{
+                selected : 'A',
+                options:[
+                    {text: 'One', value: 'A'},
+                    {text: 'Two', value: 'B'},
+                    {text: 'Three', value: 'C'}
+                ]
+            }
+        });
+
+    </script>
+
+
+</body>
+</html>
