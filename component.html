@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+    컴포넌트<br>
+    기본적인 html을 확장하여 재사용 가능한 코드를 캡슐화<br>
+    - 뷰 인스턴스 + 모든 옵션 객체 사용가능 + 라이프사이클 훅 사용가능<br>
+
+    <!-- 1 -->
+    <div id="some-element">
+        <p style="font-size: 11px;">사용자 컴포넌트 생성</p>
+        <my-component></my-component>
+    </div>
+    
+    <!-- 2 -->
+    <p style="font-size: 11px;">사용자 범위 컴포넌트 생성</p>
+    <div id="some-el2">
+        <my-component2></my-component2>
+    </div>
+
+    <!-- 3 test component -->
+    <div id="app3">
+        <my-com></my-com>
+    </div>
+
+    <br>
+    ul, ol, table, select 제한이 이쓰 엘리먼트<br>
+    - 이 엘리먼트 내의 사용자 지정 컴포넌트는 사용하면 문제가 발생할 수 있다<br>
+    - 해결 방안으로 is 특수 속성을 사용<br>
+
+    <!-- 4 -->
+    <table>
+        <my-row>...</my-row>
+    </table>
+    <table>
+        <tr is="my-row"></tr>
+    </table>
+
+    <!-- 5 -->
+    <div id="exam-5">
+        <simple-counter></simple-counter>
+        <simple-counter></simple-counter>
+        <simple-counter></simple-counter>
+    </div>
+
+    <div id="app6">
+        <my-com5></my-com5>
+    </div>
+
+    <br>
+    Vue.js 부모에서 자식관계는 props는 아래로, events 위로
+    <br>
+
+    <!-- 7 -->
+    Prop데이터 전달(아래로)
+    <br>
+    <div id="com7">
+        <child msg="hi"></child>
+    </div>
+
+    <br>
+
+    <!-- 8 -->
+    <div id="com8">
+        <child2 my-msg="hi hi"></child2>
+    </div>
+
+    <!-- 9 -->
+    <!-- 하위 동적 바인딩 -->
+    <div id="com9">
+        <input v-model="parentMsg">
+        <br>
+        <child9 :my-message="parentMsg"></child9>
+    </div>
+
+    <br>
+
+    <!-- 10 -->
+    <div id="com10">
+        <todo-item v-bind="todo"></todo-item>
+    </div>
+
+    <br>
+
+    <!-- -------------------------------------------------------------------- -->
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+
+    <script>
+
+        /* 모두 소문자 이여야하고 하이픈을 포함해야 합니다 */
+        // 1)
+        Vue.component('my-component',{
+            //option
+            template : '<div>사용자 정의 컴포넌트</div>'
+        });
+
+        // 2)
+        /* Vue를 인스터스화 하기전에 conponent를 먼저 등록해야함 */
+        new Vue({
+            el : '#some-element'
+            //option
+        });
+
+        // 2
+        var Child ={
+            template : '<div>(범위) 사용자 정의 컴포넌트</div>'
+        };
+
+        new Vue({
+            el: '#some-el2',
+            components:{
+                // <my-component>는 상위 템픔릿에서만 사용할 수 있다
+                'my-component2' : Child
+            }
+        });
+
+        //5
+        // data 는 함수여여만 한다 즉, 경고 발생
+        // Vue.component('my-component5',{
+        //     template: '<span> {{msg}} </span>',
+        //     data:{
+        //         msg: 'hello'
+        //     }
+        // });
+
+        //5-1
+        var data = {counter : 0};
+
+        Vue.component('simple-counter',{
+            template: '<button @click="counter += 1" > {{counter}} </button>'
+            // 데이터는 기술적으로 함수이므로 Vue는 따지지 않지만
+            // 각 컴포넌트 인스턴스에 대해 같은 객체 참조를 반환한다
+            ,data: function(){
+                // 모두 같은 값을 증가
+                //return data;
+                return {
+                    counter : 0 // 초기값
+                }
+            }
+        });
+
+        new Vue({
+            el: '#exam-5'
+        });
+        // 생성결과 버튼 텍스트의 값이 같이(동시) 올라간다
+
+        //7
+        Vue.component('child',{
+            //props
+            props: ['msg'],
+            // 데이터와 마찬가지로 prop은 템플릿 내부에서 사용할 수 있으며
+            // vm의 this.message로 사용할 수 있다
+            template: '<span> {{msg}} </span>'
+
+        });
+        new Vue({
+            el: '#com7'
+        });
+        //prop를 통해 child 컴포넌트를 통해 냅 span 테그로 값을 보낼 수 있다
+
+        //8
+        // html tag에서는 my-msg(kebab-case)
+        // script에서는 camelCase를 사용한다
+        Vue.component('child2',{
+            props : ['myMsg'],
+            template:'<span> {{myMsg}} </span>'
+        });
+        new Vue({
+            el: '#com8'
+        });
+
+        //9
+        //동적 Props 동적 바인딩
+        Vue.component('child9',{
+            props:['myMessage'],
+            template:'<span>{{myMessage}}</span>'
+        });
+
+        new Vue({
+            el: '#com9',
+            data:{
+                //v-model은 기본 초기 값을 설정해야함
+                parentMsg: ""
+            }
+        });
+
+
+        //10
+        //모든 객체 속성을 props로 전달
+        Vue.compoent('todo-item',{
+            props: ['todo'],
+            template: '<span> {{todo}} </span>'
+        });
+        new Vue({
+            el: '#com10',
+            data:{
+                todo:{
+                    text: 'Lean Vue',
+                    isComplete: false
+                }
+            }
+        })
+
+    </script>
+        
+
+
+
+
+
+
+    <!-- test script -->
+    <script>
+        //app3 , my-com
+        //test component
+        var aa = {
+            template : "<div> dlfjdlkjfklj </div>"
+        }
+
+        new Vue({
+            el: '#app3',
+            components:{
+                'my-com' : aa
+            }
+        });
+
+        var data4 = {num : 0};
+        var elCom = {
+            template :'<button> 44444 </button>'
+            }
+            
+        new Vue({
+            el: '#app6',
+            components:{
+                'my-com5': elCom
+            },
+            data: data4
+            
+        });
+
+
+
+
+         
+
+    </script>
+
+</body>
+</html>

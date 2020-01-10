@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+        var a = function(){
+            console.log('aaaa');
+        }
+        
+        function bb(){
+            console.log('bbbb');
+        }
+
+        bb();
+
+        //즉시 시행 함수
+        (function(){
+            console.log('eeee')
+        }());
+
+        //var
+        var testFunc = (function(){
+            var privateVar = 'private';
+            return {
+                prop : privateVar
+            }
+        }());
+
+        console.log(testFunc.prop);
+
+    </script>
+
+</body>
+</html>
