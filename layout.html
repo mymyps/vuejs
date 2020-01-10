@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+
+
+    <div class="container">
+
+        <header>
+            <slot name="header"></slot>
+        </header>
+
+        <main>
+            <slot></slot>
+        </main>
+        
+        <footer>
+            <slot name="footer"></slot>
+        </footer>
+    </div>
+
+    <base-layout>
+        <template v-slot:header>
+            <h1>Here might be a page title</h1>
+        </template>
+    
+        <template v-slot:default>
+            <p>A paragraph for the main content.</p>
+            <p>And another one.</p>
+        </template>
+    
+        <template v-slot:footer>
+            <p>Here's some contact info</p>
+        </template>
+    </base-layout>
+
+    </div>
+
+    <div id="app2">
+        <component :is="currentTab"></component>
+    </div>
+
+    <!-- -------------------------------------------------------------------- -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+        // new Vue({
+        //     el: '#app'
+        // });
+
+        new Vue({
+            el: '#app2',
+            components:('currentTab',{
+                 template: '<span> aa </span>'
+            })
+        });
+    
+    
+    </script>
+    
+</body>
+</html>
